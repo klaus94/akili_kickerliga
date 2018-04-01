@@ -21,9 +21,35 @@ object RestService
 		api = retrofit.create(API::class.java)
 	}
 
+	fun login(userName: String): User?
+	{
+		val response = api.login(userName).execute()
+		if (response.isSuccessful)
+		{
+			return response.body()!!
+		}
+		else
+		{
+			return null
+		}
+	}
+
+	fun getUser(name: String): User?
+	{
+		val response = api.getUser("users/" + name).execute()
+		if (response.isSuccessful)
+		{
+			Log.i("test", response.body().toString())
+			return response.body()!!;
+		}
+		else
+		{
+			return null
+		}
+	}
+
 	fun getUsers(): List<User>
 	{
-
 		val response = api.getUsers().execute()
 		if (response.isSuccessful)
 		{

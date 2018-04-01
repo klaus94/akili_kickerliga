@@ -6,6 +6,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.app.LoaderManager.LoaderCallbacks
+import android.content.Context
 
 import android.content.CursorLoader
 import android.content.Intent
@@ -34,7 +35,7 @@ import java.util.ArrayList
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>
+class LoginActivity : AppCompatActivity()
 {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -53,6 +54,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>
 
 		// Set up the login form.
 		edtUserName = findViewById<View>(R.id.edtName) as AutoCompleteTextView
+		installAutocomplete(this)
 
 		val btnLogin = findViewById<View>(R.id.email_sign_in_button) as Button
 		btnLogin.setOnClickListener { attemptLogin() }
@@ -60,6 +62,20 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>
 		mLoginFormView = findViewById(R.id.login_form)
 		mProgressView = findViewById(R.id.login_progress)
 
+
+	}
+
+	private fun installAutocomplete(context: Context)
+	{
+		doAsync {
+			val userNames = RestService.getUsers()
+			uiThread {
+				val suggestions = userNames.map({user -> user.name})
+				val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, suggestions)
+				edtUserName?.threshold = 0
+				edtUserName?.setAdapter(adapter)
+			}
+		}
 
 	}
 
@@ -152,63 +168,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>
 		})
 	}
 
-	override fun onCreateLoader(i: Int, bundle: Bundle): Loader<Cursor>
-	{
-		return CursorLoader(this,
-				// Retrieve data rows for the device user's 'profile' contact.
-				Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-				// Select only email addresses.
-				ContactsContract.Contacts.Data.MIMETYPE + " = ?", arrayOf(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE),
-
-				// Show primary email addresses first. Note that there won't be
-				// a primary email address if the user hasn't specified one.
-				ContactsContract.Contacts.Data.IS_PRIMARY + " DESC")
-	}
-
-	override fun onLoadFinished(cursorLoader: Loader<Cursor>, cursor: Cursor)
-	{
-		val emails = ArrayList<String>()
-		cursor.moveToFirst()
-		while (!cursor.isAfterLast)
-		{
-			emails.add(cursor.getString(ProfileQuery.ADDRESS))
-			cursor.moveToNext()
-		}
-
-		addEmailsToAutoComplete(emails)
-	}
-
-	override fun onLoaderReset(cursorLoader: Loader<Cursor>)
-	{
-
-	}
-
-	private fun addEmailsToAutoComplete(emailAddressCollection: List<String>)
-	{
-		doAsync {
-			val userNames = RestService.getUsers()
-			uiThread {
-				//Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-				Log.i("test", userNames.toString())
-				val adapter = ArrayAdapter(this@LoginActivity, android.R.layout.simple_dropdown_item_1line, userNames)
-				edtUserName!!.setAdapter(adapter)
-			}
-		}
-
-	}
-
-
-	private interface ProfileQuery
-	{
-		companion object
-		{
-			val PROJECTION = arrayOf(ContactsContract.CommonDataKinds.Email.ADDRESS, ContactsContract.CommonDataKinds.Email.IS_PRIMARY)
-
-			val ADDRESS = 0
-			val IS_PRIMARY = 1
-		}
-	}
 
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
@@ -220,20 +179,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor>
 
 		override fun doInBackground(vararg params: Void): Boolean?
 		{
-			// TODO: attempt authentication against a network service.
-
-			try
-			{
-				// Simulate network access.
-				Thread.sleep(2000)
-			}
-			catch (e: InterruptedException)
-			{
-				return false
-			}
-
 			// TODO: register the new account here.
-			RestService.createUser(userName)
+			RestService.login(userName)
 
 			return true
 		}

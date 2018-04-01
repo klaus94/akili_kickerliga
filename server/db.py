@@ -42,6 +42,18 @@ class DB(object):
 
 		return True
 
+	def getUser(self, name):
+		user = None
+		self.openConnection()
+		sqlCommand = """SELECT * FROM users u WHERE u.name = ?;"""
+		self.cursor.execute(sqlCommand, (name, ))
+		results = self.cursor.fetchall()
+		if (len(results) == 1):
+			res = results[0]
+			user = User(res[0], res[1], res[2])
+		self.closeConnection()
+		return user
+
 	def getUsers(self):
 		users = []
 

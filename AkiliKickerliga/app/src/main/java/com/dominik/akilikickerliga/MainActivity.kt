@@ -20,8 +20,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.dominik.akilikickerliga.adapter.ImageAdapter
 import com.dominik.akilikickerliga.model.Settings
+import kotlinx.android.synthetic.main.activity_login.view.*
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
 
@@ -58,16 +60,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 		// set username in side-menu
 		settings = Settings(this)
-		val headerView = navigationView.getHeaderView(0)
-		val txtUserName = headerView.findViewById(R.id.txtUserName) as TextView
-		txtUserName.text = settings.userName
+//		val headerView = navigationView.getHeaderView(0)
+//		val txtUserName = headerView.findViewById(R.id.txtUserName) as TextView
+//		val txtPoints = headerView.findViewById(R.id.txtPoints) as TextView
+//		txtUserName.text = settings.userName
+
 
 		// test restservice
 		doAsync {
-			val result = RestService.getUsers()
+
+			val userName = settings.userName
+			val user = RestService.getUser(userName)
+
 			uiThread {
-				Log.d("Request", result.toString())
-				longToast("Request performed")
+				val headerView = navigationView.getHeaderView(0)
+				val txtUserName = headerView.findViewById(R.id.txtUserName) as TextView
+				val txtPoints = headerView.findViewById(R.id.txtPoints) as TextView
+				txtUserName.text = user?.name
+				txtPoints.text = "Punkte: " + user?.points.toString()
 			}
 		}
 

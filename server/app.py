@@ -11,11 +11,30 @@ CORS(app)
 
 db = DB()
 
+@app.route('/login', methods=['POST'])
+def login():
+	userName = request.get_json()
+	# check if username valid...
+	user = db.getUser(userName)
+	if (user != None):
+		return jsonify(user.serialize()), 200		# login
+	else:
+		user = User(userName, 1000, "")
+		db.addUser(user)
+		return jsonify(user.serialize()), 201		# register
 
 @app.route('/users', methods=['GET'])
 def get_users():
-	return jsonify([u.serialize() for u in db.getUsers()])
+	return jsonify([u.serialize() for u in db.getUsers()]), 200
 
+
+@app.route('/users/<name>', methods=['GET'])
+def get_user(name):
+	print "test"
+	print db.getUser(name).serialize()
+	return jsonify(db.getUser(name).serialize()), 200
+
+# maybe not needed anymore (because of login)
 @app.route('/users', methods=['POST'])
 def create_user():
 	json = request.get_json()
@@ -26,7 +45,7 @@ def create_user():
 	if 'name' in json:
 		name = json['name']
 	try:
-		user = User(name, 0, "")
+		user = User(name, 1000, "")
 		db.addUser(user)
 	except Exception as e:
 		print e
