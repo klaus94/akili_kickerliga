@@ -1,31 +1,33 @@
 package com.dominik.akilikickerliga
 
+import RestService
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.view.View
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
 import com.dominik.akilikickerliga.adapter.ImageAdapter
+import com.dominik.akilikickerliga.model.User
 import com.dominik.akilikickerliga.model.Settings
-import kotlinx.android.synthetic.main.activity_login.view.*
-import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import com.dominik.akilikickerliga.adapter.ProfileAdapter
+import org.w3c.dom.Text
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
 {
@@ -52,21 +54,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		navigationView.setNavigationItemSelectedListener(this)
 
 		// init grid-view
-		val gridview = findViewById<View>(R.id.gridview) as GridView
-		gridview.adapter = ImageAdapter(this)
-		gridview.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
-			Toast.makeText(this@MainActivity, "" + position, Toast.LENGTH_SHORT).show()
+		doAsync {
+
+			val userList = RestService.getUsers()
+
+			uiThread {
+				val gridview = findViewById<View>(R.id.gridview) as GridView
+				gridview.adapter = ProfileAdapter(this@MainActivity, userList)
+				gridview.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
+					Toast.makeText(this@MainActivity, "" + position, Toast.LENGTH_SHORT).show()
+				}
+			}
 		}
 
-		// set username in side-menu
+		// set username and points in side-menu
 		settings = Settings(this)
-//		val headerView = navigationView.getHeaderView(0)
-//		val txtUserName = headerView.findViewById(R.id.txtUserName) as TextView
-//		val txtPoints = headerView.findViewById(R.id.txtPoints) as TextView
-//		txtUserName.text = settings.userName
-
-
-		// test restservice
 		doAsync {
 
 			val userName = settings.userName

@@ -1,12 +1,13 @@
 import android.util.Log
-import com.google.gson.Gson
+import com.dominik.akilikickerliga.adapter.API
+import com.dominik.akilikickerliga.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 object RestService
 {
-	val BASE_URL = "http://192.168.178.43:5000/"
+	val BASE_URL = "http://192.168.178.20:5000/"
 
 
 	private val api: API
