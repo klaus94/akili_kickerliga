@@ -1,7 +1,8 @@
-package com.dominik.akilikickerliga
+package com.dominik.akilikickerliga.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
+import com.dominik.akilikickerliga.MainActivity
 import com.dominik.akilikickerliga.model.Settings
 
 class SplashActivity : AppCompatActivity()

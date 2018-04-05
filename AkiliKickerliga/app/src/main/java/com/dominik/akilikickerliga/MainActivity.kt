@@ -18,15 +18,11 @@ import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
-import com.dominik.akilikickerliga.adapter.ImageAdapter
-import com.dominik.akilikickerliga.model.User
 import com.dominik.akilikickerliga.model.Settings
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import com.dominik.akilikickerliga.activities.LoginActivity
 import com.dominik.akilikickerliga.adapter.ProfileAdapter
-import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener

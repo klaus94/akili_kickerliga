@@ -1,4 +1,4 @@
-package com.dominik.akilikickerliga
+package com.dominik.akilikickerliga.activities
 
 import RestService
 import android.animation.Animator
@@ -16,10 +16,11 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import com.dominik.akilikickerliga.MainActivity
+import com.dominik.akilikickerliga.R
 import com.dominik.akilikickerliga.model.Settings
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import com.dominik.akilikickerliga.model.User
 
 
 /**
