@@ -18,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
+import com.dominik.akilikickerliga.activities.GameActivity
 import com.dominik.akilikickerliga.model.Settings
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -38,7 +39,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 		val fab = findViewById<View>(R.id.fab) as FloatingActionButton
 		fab.setOnClickListener { view ->
-			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+//			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+			val i = Intent(this@MainActivity, GameActivity::class.java)
+			startActivity(i)
 		}
 
 		val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout

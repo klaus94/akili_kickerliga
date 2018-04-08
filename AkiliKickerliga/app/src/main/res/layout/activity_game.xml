@@ -1,9 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dominik.akilikickerliga.activities.GameActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:columnCount="2"
+        android:columnWidth="320dp"
+        android:orientation="vertical"
+        android:rowCount="2"
+        android:stretchMode="columnWidth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:id="@+id/topleft"
+            android:layout_height="100dp"
+            android:layout_margin="36dp"
+            android:layout_row="0"
+            android:background="@drawable/ic_launcher_background"
+            android:gravity="center">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/topright"
+            android:layout_height="100dp"
+            android:layout_margin="36dp"
+            android:background="@drawable/ic_launcher_background"
+            android:gravity="center">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomleft"
+            android:layout_height="100dp"
+            android:layout_margin="36dp"
+            android:background="@drawable/ic_launcher_background"
+            android:gravity="center">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomright"
+            android:layout_height="100dp"
+            android:layout_margin="36dp"
+            android:background="@drawable/ic_launcher_background"
+            android:gravity="center">
+
+        </LinearLayout>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="368dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical|start"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp">
+
+        <ImageView
+            android:id="@+id/myimage4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_menu_share"/>
+
+        <ImageView
+            android:id="@+id/myimage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_menu_share"/>
+
+        <ImageView
+            android:id="@+id/myimage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_menu_share"/>
+
+        <ImageView
+            android:id="@+id/myimage3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_menu_share"/>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
