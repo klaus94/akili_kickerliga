@@ -23,10 +23,21 @@ import android.R.attr.shape
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.support.v4.content.ContextCompat
-
+import android.support.v7.widget.RecyclerView
+import android.widget.AdapterView
+import android.widget.GridView
+import android.widget.Toast
+import com.dominik.akilikickerliga.adapter.ProfileAdapter
+import com.dominik.akilikickerliga.model.User
+import android.support.v7.widget.LinearLayoutManager
+import com.dominik.akilikickerliga.adapter.HorListAdapter
 
 class GameActivity : AppCompatActivity()
 {
+	private lateinit var recyclerView: RecyclerView
+	private lateinit var viewAdapter: RecyclerView.Adapter<*>
+	private lateinit var viewManager: RecyclerView.LayoutManager
+
 	//for reference: http://www.vogella.com/tutorials/AndroidDragAndDrop/article.html
 	// todo: build table-soccer-screen, where poeple can be dragged to places of table
 
@@ -35,14 +46,42 @@ class GameActivity : AppCompatActivity()
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_game)
 
-		findViewById<View>(R.id.myimage1).setOnTouchListener(MyTouchListener())
-		findViewById<View>(R.id.myimage2).setOnTouchListener(MyTouchListener())
-		findViewById<View>(R.id.myimage3).setOnTouchListener(MyTouchListener())
-		findViewById<View>(R.id.myimage4).setOnTouchListener(MyTouchListener())
+//		findViewById<View>(R.id.myimage1).setOnTouchListener(MyTouchListener())
+//		findViewById<View>(R.id.myimage2).setOnTouchListener(MyTouchListener())
+//		findViewById<View>(R.id.myimage3).setOnTouchListener(MyTouchListener())
+//		findViewById<View>(R.id.myimage4).setOnTouchListener(MyTouchListener())
 		findViewById<View>(R.id.topleft).setOnDragListener(MyDragListener(this))
 		findViewById<View>(R.id.topright).setOnDragListener(MyDragListener(this))
 		findViewById<View>(R.id.bottomleft).setOnDragListener(MyDragListener(this))
 		findViewById<View>(R.id.bottomright).setOnDragListener(MyDragListener(this))
+
+
+		val userList = ArrayList<User>();
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+		userList.add(User("test", 1000, ""))
+
+
+		// set horizontal
+		viewManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+		viewAdapter = HorListAdapter(userList.toArray(arrayOfNulls<User>(userList.size)))
+
+		recyclerView = findViewById<RecyclerView>(R.id.profilesHorizontalList).apply {
+			// use this setting to improve performance if you know that changes
+			// in content do not change the layout size of the RecyclerView
+			setHasFixedSize(true)
+
+			// use a linear layout manager
+			layoutManager = viewManager
+
+			// specify an viewAdapter (see also next example)
+			adapter = viewAdapter
+
+		}
 	}
 }
 

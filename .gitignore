@@ -43,5 +43,5 @@ captures/
 # Windows
 *.exe*
 
-# database
+# Databasefile
 *.db
